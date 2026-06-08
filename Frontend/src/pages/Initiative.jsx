@@ -31,7 +31,7 @@ const initiatives = [
   },
   {
     title: "Pawer Rangers",
-    href:"/wing/pawerranger",
+    href:"/wing/pawerrangers",
     subtitle: "Animal Welfare & Rescue",
     description:
       "Protecting and caring for stray animals through rescue missions, feeding drives, and community awareness campaigns.",
