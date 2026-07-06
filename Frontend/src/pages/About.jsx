@@ -70,7 +70,7 @@ const initiatives = [
     desc: "Uplifting rural women through vocational skills, financial literacy workshops, and self-employment pathways — fostering lasting independence.",
     img: revolutionaari,
     href: "/wing/Revolutioनारी",
-    badge: "bg-amber-500",
+    badge: "bg-pink-500",
     icon: "♀",
   },
   {
@@ -79,7 +79,7 @@ const initiatives = [
     desc: "Free classes for youth that build confidence, communication skills, and leadership — because every voice deserves to be heard.",
     img: empowered,
     href: "/wing/empowered",
-    badge: "bg-green-700",
+    badge: "bg-blue-500",
     icon: "✦",
   },
   {
@@ -88,7 +88,7 @@ const initiatives = [
     desc: "Compassionate volunteers working to feed, rescue, and rehabilitate stray animals — because every creature deserves kindness.",
     img: pawerRanger,
     href: "/wing/pawerrangers",
-    badge: "bg-orange-600",
+    badge: "bg-purple-600",
     icon: "🐾",
   },
   {
@@ -106,17 +106,17 @@ const initiatives = [
     desc: "Bridging the education gap for children from marginalised communities — giving them tools, hope, and a story worth telling.",
     img: littleLegend,
     href: "/wing/empowered",
-    badge: "bg-stone-600",
+    badge: "bg-blue-500",
     icon: "⭐",
   },
 ];
 
 const values = [
-  { icon: "◈", title: "Compassion in Action", desc: "We believe empathy must translate into tangible change. Every initiative is rooted in listening first, then serving." },
-  { icon: "◉", title: "Community First", desc: "We are built by the community, for the community. Sustainable change only happens when people come together." },
-  { icon: "◆", title: "Inclusive Growth", desc: "No one is left behind. We celebrate every identity, background, and story — our diversity is our greatest strength." },
-  { icon: "◇", title: "Youth as Catalysts", desc: "We invest in the young because they are not the future — they are the present force for a श्रेष्ठ भारत." },
-  { icon: "◎", title: "Environmental Stewardship", desc: "A thriving planet is a prerequisite for everything else. We integrate nature-consciousness into all our work." },
+  { icon: "◈", title: "Compassion in Action", desc: "We believe true compassion goes beyond words. By listening, understanding, and acting with empathy, we create meaningful and lasting change in the lives of those we serve." },
+  { icon: "◉", title: "Community First", desc: "Strong communities build a stronger nation. We work hand in hand with people, empowering them to become active participants in creating sustainable social impact." },
+  { icon: "◆", title: "Inclusive Growth", desc: "We celebrate diversity and believe everyone deserves equal opportunities. Our mission is to ensure that no one is left behind, regardless of their background or circumstances." },
+  { icon: "◇", title: "Youth as Catalysts", desc: "Young people are not just the leaders of tomorrow—they are the changemakers of today. We empower youth to drive innovation, inspire action, and contribute to a श्रेष्ठ भारत (Better India)." },
+  { icon: "◎", title: "Environmental Stewardship", desc: "Protecting our planet is essential for a sustainable future. Through eco-conscious initiatives and community action, we strive to create a greener, healthier, and more resilient India." },
 ];
 
 const stats = [
@@ -196,14 +196,16 @@ export default function About() {
       <Section className="py-16 md:py-24 px-6 bg-[#F5F3EE]">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
-            <p className="text-xs font-bold tracking-[0.3em] uppercase mb-4 text-[#E07B0A]">Who We Are</p>
+            <p className="text-xs font-bold tracking-[0.3em] uppercase mb-4 text-[#E07B0A]">About Us</p>
             <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6 text-[#1A150D]">
               A <em className="italic font-normal text-[#F99B2A]">diverse</em> &amp; inclusive<br />community
             </h2>
             <p className="text-base sm:text-lg leading-relaxed mb-5 text-[#6B6157]">
-              Askus Foundation was born from a simple belief — that ordinary young people can do
-              extraordinary things when given the right platform. What started as a handful of friends
-              determined to make a difference in Lucknow has grown into five active wings touching hundreds of lives.
+              Founded in September 2024 by youth leader Ananya Pandey, AskUs Foundation is a youth-driven NGO dedicated to creating lasting social impact through education, women empowerment, animal welfare, and environmental sustainability. With over six years of social service experience, Ananya established the foundation to inspire young people to become changemakers and build stronger communities.
+
+              Through Revolutioनारी, the foundation empowers women with skill development and financial literacy. Its education initiatives, EmpowerEd and Little Legends, provide quality learning and personality development to over 70 children and youth. Programs like Green Squad and Pawer Rangers promote environmental awareness and care for street animals across Lucknow.
+
+              Associated with MY Bharat under the Ministry of Youth Affairs and Sports, AskUs Foundation collaborates with leading organizations to empower communities and create a future driven by education, equality, compassion, and action.
             </p>
             <p className="text-base leading-relaxed mb-8 text-[#6B6157]">
               We work at the intersection of women's empowerment, youth development, animal welfare,
@@ -306,7 +308,7 @@ export default function About() {
             Our Core <em className="italic font-normal text-[#F99B2A]">Values</em>
           </h2>
           <p className="max-w-xl mb-10 md:mb-14 text-base sm:text-lg leading-relaxed">
-            Demonstrated through every class, every drive, every act of care — these are the principles that bind us.
+            Every class we teach, every campaign we lead, and every life we touch is guided by values that define who we are and inspire what we do.
           </p>
 
           <div className="space-y-2 md:space-y-1">

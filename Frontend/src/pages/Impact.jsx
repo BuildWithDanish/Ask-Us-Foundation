@@ -117,14 +117,11 @@ export default function Impact() {
           </p>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#1A150D]">
-            Hands and hearts behind the mission
+            Hands and Hearts Behind Our Mission
           </h2>
 
           <p className="mt-6 md:mt-8 max-w-3xl mx-auto text-base md:text-lg text-gray-600 leading-relaxed">
-            Behind every campaign, every outreach activity and every impact
-            story stands a passionate group of volunteers. The AskUs
-            Immortals are the driving force that transforms ideas into
-            action and compassion into change.
+            Behind every campaign, outreach initiative, and impact story is a passionate community of volunteers dedicated to creating positive change. The AskUs Immortals are the driving force that transforms ideas into action, compassion into hope, and challenges into opportunities. Their unwavering commitment empowers us to serve communities, uplift lives, and build a brighter future for all.
           </p>
 
           <div className="grid items-center sm:grid-cols-2 md:grid-cols-3 gap-6 mt-12 md:mt-16 text-left">

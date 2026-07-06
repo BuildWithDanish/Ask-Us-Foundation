@@ -2,8 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-const raised = 5707;
-const goal = 10000;
+const raised = 35000;
+const goal = 100000;
 const donations = 22;
 // Cap progress at 100% to prevent the bar from overflowing
 const progress = Math.min(Math.round((raised / goal) * 100), 100);
@@ -23,7 +23,7 @@ const EmotionalCard = () => {
           <motion.img
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            src="https://plus.unsplash.com/premium_photo-1723773755648-ca9710c3b1bb?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://images.unsplash.com/photo-1665072692785-8dd0c152f7a5?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Support communities in need"
             className='w-full h-full object-cover origin-center'
           />
@@ -41,7 +41,7 @@ const EmotionalCard = () => {
               transition={{ delay: 0.2 }}
               className="text-center text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-5 leading-tight font-serif"
             >
-              Save lives with a single donation
+              Enhance lives with a single donation
             </motion.h2>
 
             <motion.p
@@ -64,9 +64,9 @@ const EmotionalCard = () => {
               {/* Stats Row */}
               <div className="grid grid-cols-3 mb-5 sm:mb-6 pb-4 sm:pb-5 border-b border-amber-100">
                 {[
-                  { value: `$${raised.toLocaleString()}`, label: "Raised" },
+                  { value: `₹${raised.toLocaleString()}`, label: "Raised" },
                   { value: donations, label: "Donations" },
-                  { value: `$${goal.toLocaleString()}`, label: "Goal" },
+                  { value: `₹${goal.toLocaleString()}`, label: "Goal" },
                 ].map((stat, i) => (
                   <div key={stat.label}
                     className={`flex flex-col items-center py-1 sm:py-2 ${i < 2 ? "border-r border-amber-100" : ""}`}>
@@ -93,8 +93,8 @@ const EmotionalCard = () => {
 
               {/* Progress Labels */}
               <div className="flex justify-between mt-3">
-                <span className="text-[10px] sm:text-xs text-gray-500 font-medium">${raised.toLocaleString()} raised</span>
-                <span className="text-[10px] sm:text-xs text-gray-500 font-medium">${goal.toLocaleString()} goal</span>
+                <span className="text-[10px] sm:text-xs text-gray-500 font-medium">₹{raised.toLocaleString()} raised</span>
+                <span className="text-[10px] sm:text-xs text-gray-500 font-medium">₹{goal.toLocaleString()} goal</span>
               </div>
             </motion.div>
 

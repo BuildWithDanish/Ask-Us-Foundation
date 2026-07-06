@@ -5,7 +5,6 @@ const assistanceOptions = [
   "Food Assistance",
   "Housing Support",
   "Medical Aid",
-  "Spiritual Guidance",
   "Other",
 ];
 
@@ -24,11 +23,32 @@ export default function SupportForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // handle submission logic here
-  };
+
+    const payload = {
+      username: formData.fullName,
+      phoneNumber: formData.phone,
+      email: formData.email,
+      typeOfAssistance: formData.assistanceType,
+      message: formData.message
+    };
+
+    try {
+      const response = await fetch("http://localhost:8080/support", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      if (response.ok) { console.log("Submitted succesfully"); }
+    }
+    catch (error) {
+      console.log(error);
+    }
+
+  }
 
   // Variants for staggered form animation
   const containerVariants = {
@@ -44,8 +64,8 @@ export default function SupportForm() {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.5, ease: "easeOut" }
     }
@@ -54,9 +74,9 @@ export default function SupportForm() {
   return (
     <section id="support" className="min-h-[100svh] bg-gradient-to-b from-[#FBF9F3] to-blue-100 flex items-center justify-center px-4 sm:px-6 py-16 md:py-24">
       <div className="w-full max-w-2xl">
-        
+
         {/* Header */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -68,7 +88,7 @@ export default function SupportForm() {
           </p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif text-gray-800 leading-tight mb-1 md:mb-2">
             Need support? We're
-          </h1> 
+          </h1>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif italic text-gray-700 leading-tight mb-5 md:mb-6">
             here for you
           </h1>
@@ -77,10 +97,10 @@ export default function SupportForm() {
             out. We offer support for food, housing, medical aid, and spiritual
             guidance.
           </p>
-        </motion.div>  
+        </motion.div>
 
         {/* Form Container */}
-        <motion.form 
+        <motion.form
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"

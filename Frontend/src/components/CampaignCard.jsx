@@ -51,8 +51,8 @@ export default function CampaignCard({ image, title, description, raised, goal, 
           {/* Stats */}
           <div className="flex justify-between items-end text-sm sm:text-base mb-6">
             <div>
-              <p className="font-bold text-[#1A150D]">${raised.toLocaleString()}</p>
-              <p className="text-xs sm:text-sm text-gray-600">of ${goal.toLocaleString()}</p>
+              <p className="font-bold text-[#1A150D]">₹{raised.toLocaleString()}</p>
+              <p className="text-xs sm:text-sm text-gray-600">of ₹{goal.toLocaleString()}</p>
             </div>
             <div className="text-right">
               <p className="font-bold text-[#1A150D]">{donations}</p>

@@ -12,47 +12,47 @@ import { Link } from "react-router-dom";
 
 const initiatives = [
   {
-    title: "RevolutioNAARI",
+    title: "Revolutioनारी",
     href:"/wing/Revolutioनारी",
-    subtitle: "Women Employment & Financial Literacy",
+    subtitle: "Empowering Rural Women Through Skills & Financial Literacy",
     description:
-      "Empowering women through skill development, entrepreneurship, and financial literacy programs that create sustainable livelihoods.",
+      "Revolutioनारी is dedicated to empowering rural women by providing skill development training, financial literacy, and opportunities for economic independence. We help women build confidence, achieve self-reliance, and create a brighter future for themselves and their communities.",
     image: revolutionaari,
     reverse: false,
   },
   {
     title: "EmpowerEd",
     href:"/wing/empowered",
-    subtitle: "Youth Development & Communication Skills",
+    subtitle: "Shaping Young Minds Through Education & Personality Development",
     description:
-      "Building confidence and leadership through communication training, personality development, and mentorship programs.",
+      "EmpowerEd focuses on providing quality education, mentorship, and personality development programs for children and youth. Through holistic learning and life skills training, we inspire young individuals to unlock their potential and become future leaders.",
     image: empowerEd,
     reverse: true,
   },
   {
     title: "Pawer Rangers",
     href:"/wing/pawerrangers",
-    subtitle: "Animal Welfare & Rescue",
+    subtitle: "Protecting and Caring for Street Animals",
     description:
-      "Protecting and caring for stray animals through rescue missions, feeding drives, and community awareness campaigns.",
+      "Pawer Rangers is committed to the welfare of street animals through rescue operations, feeding drives, and medical support. Our mission is to create a compassionate society where every animal is treated with care, dignity, and love.",
     image: pawerRanger,
     reverse: false,
   },
   {
     title: "Green Squad",
     href:"/wing/greensquad",
-    subtitle: "Environment & Sustainability",
+    subtitle: "Working Together for a Greener India",
     description:
-      "Creating greener communities through plantation drives, environmental awareness programs, and clean-up campaigns.",
+      "Green Squad promotes environmental sustainability through tree plantation drives, awareness campaigns, and community-led green initiatives. We aim to inspire people across India to take action for a cleaner, healthier, and greener future.",
     image: greenSquad,
     reverse: true,
   },
   {
     title: "Little Legends",
     href:"/wing/empowered",
-    subtitle: "Education For Every Child",
+    subtitle: "Nurturing Young Dreams Through Education & Personal Growth",
     description:
-      "Supporting underprivileged children with access to quality education, learning resources, and mentorship opportunities.",
+      "Little Legends is dedicated to fostering education, creativity, and personality development among children. Through engaging learning experiences and mentorship, we empower young minds to dream big, grow confidently, and become responsible citizens.",
     image: littleLegend,
     reverse: false,
   },

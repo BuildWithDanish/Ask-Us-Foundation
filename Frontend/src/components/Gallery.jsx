@@ -40,8 +40,7 @@ export default function Gallery() {
             Celebrating Empowerment, Care and Sustainability Initiatives
           </h1>
           <p className="w-full md:w-5/6 text-gray-700 text-base md:text-lg mb-8 leading-relaxed">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti, unde. Dolores ea iure sed repellendus neque, magni ullam deleniti, amet quas quam corporis suscipit mollitia eum obcaecati error dolore illo?
-          </p>
+            AskUs Foundation, founded in September 2024 by youth leader Ananya Pandey, drives social change through women empowerment, child education, and environmental impact. With 50+ women trained and 70+ students educated daily, its initiatives span Lucknow and beyond. Associated with MY Bharat, Ministry of Youth Affairs and Sports.          </p>
           <Link
             to="/about"
             className="w-full sm:w-auto px-8 py-3.5 text-center text-white font-semibold rounded-full transition-all duration-300 hover:scale-105 active:scale-95 text-sm tracking-wide bg-[#F99B2A] hover:bg-[#E07B0A] shadow-lg hover:shadow-xl block"

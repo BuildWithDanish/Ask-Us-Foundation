@@ -2,12 +2,21 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar'; // Ensure correct path
 import Footer from '../components/Footer'; // Ensure correct path
 import { FaHeart, FaLock, FaShieldAlt } from 'react-icons/fa';
+import axios from 'axios';
+
 
 const Donate = () => {
   // States for form handling
   const [amount, setAmount] = useState('1000');
   const [customAmount, setCustomAmount] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('upi');
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const type = "Donation";
 
   const predefinedAmounts = [
     { value: '500', label: '₹500', impact: 'Provides meals for a child for a week.' },
@@ -26,12 +35,84 @@ const Donate = () => {
     setAmount('custom');
   };
 
+  const handleDonate = async () => {
+
+  // Validation
+  if (!firstName || !email) {
+    alert("Please enter your name and email!");
+    return;
+  }
+
+  const finalAmount = amount === 'custom' ? customAmount : amount;
+  if (!finalAmount || finalAmount <= 0) {
+    alert("Please select or enter a valid amount!");
+    return;
+  }
+
+  setIsLoading(true);
+
+  try {
+    // Spring Boot ko donor info bhejo
+    const response = await axios.post("http://localhost:8080/razorpay/donation/create-order", {
+      amount: parseInt(finalAmount),
+      type,
+      firstName,
+      lastName,
+      email,
+      phone
+    });
+
+    const order = response.data;
+
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY,
+      amount: order.amount,
+      currency: order.currency,
+      name: "Askus Foundation",
+      description: "Donation",
+      order_id: order.id,
+
+      // Prefill — form se jo bhara wo auto fill hoga
+      prefill: {
+        name: firstName + " " + lastName,
+        email: email,
+        contact: phone
+      },
+
+      handler: async function (paymentResponse) {
+        const verifyRes = await axios.post("http://localhost:8080/razorpay/payment/verify", {
+          razorpay_payment_id: paymentResponse.razorpay_payment_id,
+          razorpay_order_id:   paymentResponse.razorpay_order_id,
+          razorpay_signature:  paymentResponse.razorpay_signature,
+        });
+
+        if (verifyRes.data.status === "success") {
+          alert("Thank you " + firstName + "! Your donation was successful!");
+        } else {
+          alert("Payment issue! Contact: askusfoundation.lko@gmail.com\nPayment ID: " + paymentResponse.razorpay_payment_id);
+        }
+      },
+
+      theme: { color: "#F99B2A" }  // tumhara brand color!
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+
+  } catch (error) {
+    alert("Something went wrong, Please Try Again");
+    console.log(error)
+  } finally {
+    setIsLoading(false);
+  }
+};
+
   return (
     <div className="font-sans bg-[#FBF9F3] min-h-screen flex flex-col">
       <Navbar />
 
       <main className="flex-grow pb-24">
-        
+
         {/* HERO SECTION */}
         <div className="bg-[#1A150D] py-16 md:py-24 px-4 text-center">
           <div className="max-w-3xl mx-auto">
@@ -47,7 +128,7 @@ const Donate = () => {
         {/* DONATION SECTION */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
-            
+
             {/* ================= LEFT: DONATION FORM ================= */}
             <div className="lg:col-span-3 bg-white rounded-3xl shadow-xl p-6 md:p-10 border border-gray-100">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">Choose Your Donation</h2>
@@ -60,8 +141,8 @@ const Donate = () => {
                       key={item.value}
                       onClick={() => handleAmountSelect(item.value)}
                       className={`py-4 rounded-2xl font-bold text-lg transition-all duration-300 border-2 
-                        ${amount === item.value 
-                          ? 'bg-[#F99B2A] text-white border-[#F99B2A] shadow-md transform -translate-y-1' 
+                        ${amount === item.value
+                          ? 'bg-[#F99B2A] text-white border-[#F99B2A] shadow-md transform -translate-y-1'
                           : 'bg-white text-gray-600 border-gray-200 hover:border-[#F99B2A] hover:text-[#F99B2A]'
                         }`}
                     >
@@ -82,13 +163,13 @@ const Donate = () => {
                       ${amount === 'custom' ? 'border-[#F99B2A] ring-1 ring-[#F99B2A]' : 'border-gray-200 focus:border-[#F99B2A]'}`}
                   />
                 </div>
-                
+
                 {/* Impact Text */}
                 <div className="mt-4 p-4 bg-orange-50 rounded-xl flex items-start gap-3">
                   <FaHeart className="text-[#F99B2A] mt-1 flex-shrink-0" />
                   <p className="text-sm text-gray-700 font-medium">
-                    {amount !== 'custom' 
-                      ? predefinedAmounts.find(a => a.value === amount)?.impact 
+                    {amount !== 'custom'
+                      ? predefinedAmounts.find(a => a.value === amount)?.impact
                       : 'Every rupee counts! Your custom donation will be utilized where it is needed the most.'}
                   </p>
                 </div>
@@ -98,33 +179,44 @@ const Donate = () => {
               <div className="mb-10 space-y-5">
                 <h3 className="text-xl font-bold text-gray-900">Your Details</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <input type="text" placeholder="First Name *" className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#F99B2A] focus:ring-1 focus:ring-[#F99B2A] outline-none" required />
-                  <input type="text" placeholder="Last Name" className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#F99B2A] focus:ring-1 focus:ring-[#F99B2A] outline-none" />
+                  <input
+                    type="text"
+                    placeholder="First Name *"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#F99B2A] focus:ring-1 focus:ring-[#F99B2A] outline-none"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#F99B2A] focus:ring-1 focus:ring-[#F99B2A] outline-none"
+                  />
                 </div>
-                <input type="email" placeholder="Email Address *" className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#F99B2A] focus:ring-1 focus:ring-[#F99B2A] outline-none" required />
-                <input type="tel" placeholder="Phone Number (For Updates)" className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#F99B2A] focus:ring-1 focus:ring-[#F99B2A] outline-none" />
+                <input
+                  type="email"
+                  placeholder="Email Address *"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#F99B2A] focus:ring-1 focus:ring-[#F99B2A] outline-none"
+                />
+                <input
+                  type="tel"
+                  placeholder="Phone Number (For Updates)"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#F99B2A] focus:ring-1 focus:ring-[#F99B2A] outline-none"
+                />
               </div>
-
-              {/* Payment Methods */}
-              <div className="mb-10">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Payment Method</h3>
-                <div className="flex flex-col space-y-3">
-                  <label className={`flex items-center p-4 border rounded-xl cursor-pointer transition-colors ${paymentMethod === 'upi' ? 'border-[#F99B2A] bg-orange-50' : 'border-gray-200'}`}>
-                    <input type="radio" name="payment" checked={paymentMethod === 'upi'} onChange={() => setPaymentMethod('upi')} className="w-4 h-4 text-[#F99B2A] focus:ring-[#F99B2A]" />
-                    <span className="ml-3 font-semibold text-gray-800">UPI / QR Code (GPay, PhonePe, Paytm)</span>
-                  </label>
-                  <label className={`flex items-center p-4 border rounded-xl cursor-pointer transition-colors ${paymentMethod === 'card' ? 'border-[#F99B2A] bg-orange-50' : 'border-gray-200'}`}>
-                    <input type="radio" name="payment" checked={paymentMethod === 'card'} onChange={() => setPaymentMethod('card')} className="w-4 h-4 text-[#F99B2A] focus:ring-[#F99B2A]" />
-                    <span className="ml-3 font-semibold text-gray-800">Credit / Debit Card / Net Banking</span>
-                  </label>
-                </div>
-              </div>
-
               {/* Submit Button */}
-              <button className="w-full bg-[#F99B2A] hover:bg-[#E07B0A] text-white font-bold text-lg py-5 rounded-2xl transition-all duration-300 shadow-[0_8px_30px_rgb(249,155,42,0.3)] hover:shadow-[0_8px_30px_rgb(249,155,42,0.5)] transform hover:-translate-y-1">
-                Donate {amount === 'custom' ? (customAmount ? `₹${customAmount}` : '') : `₹${amount}`} Now
+              <button
+                onClick={handleDonate}
+                disabled={isLoading}
+                className="w-full bg-[#F99B2A] hover:bg-[#E07B0A] text-white font-bold text-lg py-5 rounded-2xl transition-all duration-300 shadow-[0_8px_30px_rgb(249,155,42,0.3)] hover:shadow-[0_8px_30px_rgb(249,155,42,0.5)] transform hover:-translate-y-1 disabled:opacity-50">
+                {isLoading ? "Processing..." : `Donate ${amount === 'custom' ? (customAmount ? `₹${customAmount}` : '') : `₹${amount}`} Now`}
               </button>
-              
+
               <div className="mt-6 flex items-center justify-center gap-2 text-sm text-gray-500">
                 <FaLock />
                 <span>100% Secure & Encrypted Payment</span>
@@ -133,7 +225,7 @@ const Donate = () => {
 
             {/* ================= RIGHT: TRUST & INFO ================= */}
             <div className="lg:col-span-2 space-y-8 mt-10 lg:mt-0">
-              
+
               {/* Trust Card */}
               <div className="bg-white rounded-3xl p-8 shadow-md border border-gray-100">
                 <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mb-6">

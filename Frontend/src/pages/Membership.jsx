@@ -5,41 +5,37 @@ import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CTA from "../components/CTA";
+import { useState } from "react";
+import axios from "axios";
 
 export default function Membership() {
-  const plans = [
-    {
-      name: "Bronze",
-      price: "₹499",
-      features: [
-        "Monthly Newsletter",
-        "Community Access",
-        "Event Invitations",
-      ],
-      featured: false,
-    },
-    {
-      name: "Silver",
-      price: "₹999",
-      features: [
-        "Everything in Bronze",
-        "Volunteer Priority",
-        "Workshops & Training",
-      ],
-      featured: false,
-    },
-    {
-      name: "Gold",
-      price: "₹2499",
-      features: [
-        "Everything in Silver",
-        "Leadership Programs",
-        "Recognition Certificate",
-        "Special Impact Events",
-      ],
-      featured: true,
-    },
-  ];
+ const plans = [
+  {
+    name: "₹100 Registration Fee (One Time)",
+    amount: 100,
+    features: ["Monthly Newsletter", "Community Access", "Event Invitations"],
+  },
+  {
+    name: "₹100 / month",
+    amount: 100,
+    features: ["Monthly Newsletter", "Community Access", "Event Invitations"],
+  },
+  {
+    name: "₹500 / month",
+    amount: 500,
+    features: ["Everything in Basic", "Volunteer Priority", "Workshops & Training"],
+  },
+  {
+    name: "₹1000 / month",
+    amount: 1000,
+    features: ["Everything in Standard", "Leadership Programs", "Recognition Certificate"],
+  },
+  {
+    name: "₹5000 / month",
+    amount: 5000,
+    features: ["Everything in Premium", "Special Impact Events", "VIP Recognition"],
+  },
+];
 
   const benefits = [
     {
@@ -67,6 +63,96 @@ export default function Membership() {
         "Promote environmental awareness and sustainable living.",
     },
   ];
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [amount, setAmount] = useState("");
+  const [membership, setMembership] = useState("");
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const type = "Membership";
+
+  const handleMembershipChange = (e) => {
+    console.log(e.target.value)
+    const selectedName = e.target.value;
+    setMembership(selectedName);
+    const selected = plans.find((p) => p.name === selectedName);
+    if (selected) setAmount(selected.amount);
+  };
+
+
+  const handleDonate = async () => {
+
+    // Validation
+    if (!fullName || !email) {
+      alert("Please enter your name and email!");
+      return;
+    }
+
+    const finalAmount = amount
+    if (!finalAmount || finalAmount <= 0) {
+      alert("Please select or enter a valid amount!");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Spring Boot ko donor info bhejo
+      const response = await axios.post("http://localhost:8080/razorpay/membership/create-order", {
+        amount: parseInt(finalAmount),
+        type,
+        fullName,
+        email,
+        phone,
+        message,
+
+      });
+
+      const order = response.data;
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY,
+        amount: order.amount,
+        currency: order.currency,
+        name: "Askus Foundation",
+        description: "Membership - " + membership,
+        order_id: order.id,
+
+        // Prefill — form se jo bhara wo auto fill hoga
+        prefill: {
+          name: fullName,
+          email: email,
+          contact: phone
+        },
+
+        handler: async function (paymentResponse) {
+          const verifyRes = await axios.post("http://localhost:8080/razorpay/payment/verify", {
+            razorpay_payment_id: paymentResponse.razorpay_payment_id,
+            razorpay_order_id: paymentResponse.razorpay_order_id,
+            razorpay_signature: paymentResponse.razorpay_signature,
+          });
+
+          if (verifyRes.data.status === "success") {
+            alert("Thank you " + fullName + "! for becoming a member!");
+          } else {
+            alert("Payment issue! Contact: askusfoundation.lko@gmail.com\nPayment ID: " + paymentResponse.razorpay_payment_id);
+          }
+        },
+
+        theme: { color: "#F99B2A" }  // tumhara brand color!
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+
+    } catch (error) {
+      alert("Something went wrong, Please Try Again");
+      console.log(error)
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="font-['DM_Sans',_sans-serif] bg-[#F8F4EE] text-[#222]">
@@ -207,27 +293,36 @@ export default function Membership() {
             <form className="space-y-4 md:space-y-5">
               <input
                 type="text"
-                placeholder="Full Name"
+                placeholder="Full Name*"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
                 className="w-full border border-gray-200 rounded-xl px-4 py-3.5 md:px-5 md:py-4 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-all bg-[#FBF9F3]"
               />
 
               <input
                 type="email"
-                placeholder="Email Address"
+                placeholder="Email Address*"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full border border-gray-200 rounded-xl px-4 py-3.5 md:px-5 md:py-4 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-all bg-[#FBF9F3]"
               />
 
               <input
                 type="tel"
                 placeholder="Phone Number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 className="w-full border border-gray-200 rounded-xl px-4 py-3.5 md:px-5 md:py-4 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-all bg-[#FBF9F3]"
               />
 
-              <select className="w-full border border-gray-200 rounded-xl px-4 py-3.5 md:px-5 md:py-4 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-all bg-[#FBF9F3] text-gray-600">
-                <option>Select Membership Plan</option>
+              <select
+              value={membership}
+              onChange={handleMembershipChange}
+               className="w-full border border-gray-200 rounded-xl px-4 py-3.5 md:px-5 md:py-4 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-all bg-[#FBF9F3] text-gray-600">
+                <option>Select Membership</option>
                 {plans.map((plan) => (
                   <option key={plan.name} value={plan.name}>
-                    {plan.name} - {plan.price}
+                    {plan.name}
                   </option>
                 ))}
               </select>
@@ -235,14 +330,18 @@ export default function Membership() {
               <textarea
                 rows="4"
                 placeholder="Message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 className="w-full border border-gray-200 rounded-xl px-4 py-3.5 md:px-5 md:py-4 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-all bg-[#FBF9F3] resize-none"
               />
 
               <button
-                type="submit"
+                type="button"
+                onClick={handleDonate}
+                disabled = {isLoading}
                 className="w-full bg-yellow-500 hover:bg-yellow-600 py-4 rounded-xl font-bold text-gray-900 transition-colors shadow-md mt-2"
               >
-                Submit Membership Request
+                 {isLoading ? "Processing..." : "Enroll Now"}
               </button>
             </form>
           </div>

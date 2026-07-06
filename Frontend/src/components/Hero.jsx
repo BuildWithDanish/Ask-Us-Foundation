@@ -30,8 +30,8 @@ export default function Hero() {
                     transition={{ duration: 0.6, delay: 0.4 }}
                     className="text-4xl sm:text-5xl md:text-6xl font-bold text-center md:text-left leading-tight"
                 >
-                    Faith in action.<br />
-                    Hope for all.
+                    Compassion in Action.<br />
+                    Hope for Every Life.
                 </motion.h1>
 
                 {/* Buttons Container */}

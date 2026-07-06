@@ -2,6 +2,8 @@ import React from 'react';
 import empowerEd from "../assets/image/empowerEd.jpg";
 import revolutionaari from "../assets/image/revolutionaari.jpg";
 import CampaignCard from "../components/CampaignCard";
+import green from "../assets/image/green.jpg";
+import littleLegend from"../assets/image/littleLegend.png";
 
 const Wings = () => {
     return (
@@ -21,37 +23,37 @@ const Wings = () => {
                 <CampaignCard
                     image={empowerEd}
                     title="EmpowerEd"
-                    description="Fostering education and personality development for the youth."
-                    raised={4245}
-                    goal={5000}
-                    donations={11}
+                    description="EmpowerEd focuses on providing quality education, mentorship, and personality development programs for children and youth. Through holistic learning and life skills training, we inspire young individuals to unlock their potential and become future leaders."
+                    raised={27500}
+                    goal={100000}
+                    donations={30}
                 />
 
                 <CampaignCard
                     image={revolutionaari}
                     title="Revolutioनारी"
-                    description="Uplifting rural women with skills and financial literacy."
-                    raised={4245}
-                    goal={10000}
-                    donations={4}
+                    description="Revolutioनारी is dedicated to empowering rural women by providing skill development training, financial literacy, and opportunities for economic independence. We help women build confidence, achieve self-reliance, and create a brighter future for themselves and their communities."
+                    raised={42000}
+                    goal={150000}
+                    donations={44}
                 />
 
                 <CampaignCard
-                    image={empowerEd}
-                    title="EmpowerEd"
-                    description="Fostering education and personality development for the youth."
-                    raised={4245}
-                    goal={5000}
-                    donations={11}
+                    image={green}
+                    title="GreenSquad"
+                    description="Green Squad promotes environmental sustainability through tree plantation drives, awareness campaigns, and community-led green initiatives. We aim to inspire people across India to take action for a cleaner, healthier, and greener future."
+                    raised={31000}
+                    goal={100000}
+                    donations={27}
                 />
 
                 <CampaignCard
-                    image={revolutionaari}
-                    title="Revolutioनारी"
-                    description="Uplifting rural women with skills and financial literacy."
-                    raised={4245}
-                    goal={10000}
-                    donations={4}
+                    image={littleLegend}
+                    title="Little Legends"
+                    description="Little Legends is dedicated to fostering education, creativity, and personality development among children. Through engaging learning experiences and mentorship, we empower young minds to dream big, grow confidently, and become responsible citizens."
+                    raised={45000}
+                    goal={100000}
+                    donations={36}
                 />
             </div>
         </section>

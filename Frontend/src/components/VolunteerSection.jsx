@@ -27,16 +27,9 @@ const VolunteerCard = ({ name, role, image, quote }) => {
         <img
           src={image}
           alt={name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
           loading="lazy"
         />
-      </div>
-
-      {/* Quote */}
-      <div className="text-center px-2">
-        <p className="text-gray-700 text-[15px] leading-relaxed font-medium">
-          "{quote}"
-        </p>
       </div>
     </div>
   );
@@ -46,68 +39,68 @@ const VolunteerSection = () => {
   // Dummy Data
   const volunteerData = [
     {
-      name: "Daniel Brooks",
-      role: "Community Meal Coordinator",
+      name: "Prakhar Sanwal",
+      role: "Vice President",
       image: v1,
       quote: "I joined to serve others. What I found was a deeper connection with God and a new family in faith."
     },
     {
-      name: "Sophia Martinez",
-      role: "Global Health Volunteer",
+      name: "Ayushman Shukla",
+      role: "Secretary",
       image: v2,
       quote: "Every time we bring care to a remote village, we bring light with it. It's a privilege to serve."
     },
     {
-      name: "Ethan Walker",
-      role: "",
+      name: "Khushi Srivastava",
+      role: "Program Manager",
       image: v3,
       quote: "We don't just hand out food—we build relationships. That's how transformation begins."
     },
     {
-      name: "Olivia Hayes",
-      role: "Food Distribution Specialist",
+      name: "Richa Dubey",
+      role: "Field Worker",
       image: v4,
       quote: "Serving warm, nutritious meals to families in crisis, the elderly, and children facing hunger."
     },
     {
-      name: "Maya Chen",
-      role: "Rural Health Advocate",
+      name: "Atharv Pandey",
+      role: "Project Coordinator",
       image: v5,
       quote: "Providing care kits with food and clothing to individuals experiencing homelessness in urban areas."
     },
     {
-      name: "Liana Johnson",
-      role: "Community Engagement Officer",
+      name: "Palak Yadav",
+      role: "Volunteer Coordinator",
       image: v6,
       quote: "Spreading the Word by distributing translated Bibles and holding small-group faith sessions."
     },
     {
-      name: "Liana Johnson",
-      role: "Community Engagement Officer",
+      name: "Komal Vishwakarma",
+      role: "Field Worker",
       image: v7,
       quote: "Spreading the Word by distributing translated Bibles and holding small-group faith sessions."
     },
     {
-      name: "Liana Johnson",
-      role: "Community Engagement Officer",
+      name: "Abhishek Vishwakarma",
+      role: "Field Worker",
       image: v8,
       quote: "Spreading the Word by distributing translated Bibles and holding small-group faith sessions."
     },
    {
-      name: "Liana Johnson",
-      role: "Community Engagement Officer",
+      name: "Ritu Vishwakarma",
+      role: "Field Worker",
       image: v9,
       quote: "Spreading the Word by distributing translated Bibles and holding small-group faith sessions."
     }, 
     {
-      name: "Liana Johnson",
-      role: "Community Engagement Officer",
+      name: "Ajeeta Bhattacharya",
+      role: "Social Media and Commmunication Officer",
       image: v10,
       quote: "Spreading the Word by distributing translated Bibles and holding small-group faith sessions."
     }, 
     {
-      name: "Liana Johnson",
-      role: "Community Engagement Officer",
+      name: "Avni Pandey",
+      role: "Volunteer",
       image: v11,
       quote: "Spreading the Word by distributing translated Bibles and holding small-group faith sessions."
     },
@@ -131,7 +124,6 @@ const VolunteerSection = () => {
               name={member.name}
               role={member.role}
               image={member.image}
-              quote={member.quote}
             />
           ))}
         </div>
