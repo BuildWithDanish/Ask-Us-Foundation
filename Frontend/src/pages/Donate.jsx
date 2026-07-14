@@ -53,7 +53,7 @@ const Donate = () => {
 
   try {
     // Spring Boot ko donor info bhejo
-    const response = await axios.post("http://localhost:8080/razorpay/donation/create-order", {
+    const response = await axios.post("https://p01--ask-us-foundation--8w9bgx4fp8vt.code.run/razorpay/donation/create-order", {
       amount: parseInt(finalAmount),
       type,
       firstName,
@@ -80,7 +80,7 @@ const Donate = () => {
       },
 
       handler: async function (paymentResponse) {
-        const verifyRes = await axios.post("http://localhost:8080/razorpay/payment/verify", {
+        const verifyRes = await axios.post("https://p01--ask-us-foundation--8w9bgx4fp8vt.code.run/razorpay/payment/verify", {
           razorpay_payment_id: paymentResponse.razorpay_payment_id,
           razorpay_order_id:   paymentResponse.razorpay_order_id,
           razorpay_signature:  paymentResponse.razorpay_signature,

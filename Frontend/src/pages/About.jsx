@@ -344,7 +344,6 @@ export default function About() {
             {galleryImgs.map((src, i) => (
               <a
                 key={i}
-                href="https://askusfoundation.org/gallery"
                 className="group overflow-hidden rounded-2xl block h-56 sm:h-64 md:h-72 w-full"
               >
                 <img
