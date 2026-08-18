@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:5173", "https://foundation-frontend-inky.vercel.app/"})
+@CrossOrigin(origins = {"http://localhost:5173", "https://foundation-frontend-inky.vercel.app"})
 @RequestMapping("/razorpay")
 public class RazorPayController {
 
@@ -77,7 +77,7 @@ public class RazorPayController {
     }
 
     @PostMapping("/payment/verify")
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = {"http://localhost:5173", "https://foundation-frontend-inky.vercel.app"})
     public String verifyPayment(@RequestBody Map<String, String> data) {
         try {
             String orderId = data.get("razorpay_order_id");
