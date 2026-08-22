@@ -9,7 +9,7 @@ export default function Navbar() {
   const [mobileProjectsOpen, setMobileProjectsOpen] = useState(false);
 
   return (
-    <nav className="absolute top-0 left-1/2 -translate-x-1/2 w-full md:w-[95%] z-50 rounded-b-3xl bg-white shadow-sm border-b border-gray-100">
+    <nav className="relative top-0 left-1/2 -translate-x-1/2 w-full md:w-[100%] z-50 rounded-b-3xl bg-white shadow-sm border-b border-gray-100">
       <div className="w-full px-4 md:px-8 flex items-center justify-between h-[90px]">
 
         {/* ── LEFT: Logo ── */}

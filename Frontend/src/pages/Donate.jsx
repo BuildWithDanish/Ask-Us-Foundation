@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import Navbar from '../components/Navbar'; // Ensure correct path
-import Footer from '../components/Footer'; // Ensure correct path
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import { FaHeart, FaLock, FaShieldAlt } from 'react-icons/fa';
 import axios from 'axios';
-
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 const Donate = () => {
-  // States for form handling
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  // Will be null/undefined for a general (non-campaign) donation — that's fine
+  const campaignId = searchParams.get('campaignId');
+  const campaignTitle = searchParams.get('campaignTitle');
+
   const [amount, setAmount] = useState('1000');
   const [customAmount, setCustomAmount] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('upi');
@@ -36,76 +42,87 @@ const Donate = () => {
   };
 
   const handleDonate = async () => {
+    if (!firstName || !email) {
+      alert("Please enter your name and email!");
+      return;
+    }
 
-  // Validation
-  if (!firstName || !email) {
-    alert("Please enter your name and email!");
-    return;
-  }
+    const finalAmount = amount === 'custom' ? customAmount : amount;
+    if (!finalAmount || finalAmount <= 0) {
+      alert("Please select or enter a valid amount!");
+      return;
+    }
 
-  const finalAmount = amount === 'custom' ? customAmount : amount;
-  if (!finalAmount || finalAmount <= 0) {
-    alert("Please select or enter a valid amount!");
-    return;
-  }
+    setIsLoading(true);
 
-  setIsLoading(true);
+    try {
+      const response = await axios.post("https://p01--ask-us-foundation--8w9bgx4fp8vt.code.run/razorpay/donation/create-order", {
+        amount: parseInt(finalAmount),
+        type,
+        firstName,
+        lastName,
+        email,
+        phone,
+        campaignId: campaignId || null, // ← tell backend which campaign this order is for
+      });
 
-  try {
-    // Spring Boot ko donor info bhejo
-    const response = await axios.post("https://p01--ask-us-foundation--8w9bgx4fp8vt.code.run/razorpay/donation/create-order", {
-      amount: parseInt(finalAmount),
-      type,
-      firstName,
-      lastName,
-      email,
-      phone
-    });
+      const order = response.data;
 
-    const order = response.data;
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY,
+        amount: order.amount,
+        currency: order.currency,
+        name: "Askus Foundation",
+        description: campaignTitle || "Donation",
+        order_id: order.id,
 
-    const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEY,
-      amount: order.amount,
-      currency: order.currency,
-      name: "Askus Foundation",
-      description: "Donation",
-      order_id: order.id,
+        prefill: {
+          name: firstName + " " + lastName,
+          email: email,
+          contact: phone
+        },
 
-      // Prefill — form se jo bhara wo auto fill hoga
-      prefill: {
-        name: firstName + " " + lastName,
-        email: email,
-        contact: phone
-      },
+        handler: async function (paymentResponse) {
+          try {
+            const verifyRes = await axios.post("https://p01--ask-us-foundation--8w9bgx4fp8vt.code.run/razorpay/payment/verify", {
+              razorpay_payment_id: paymentResponse.razorpay_payment_id,
+              razorpay_order_id:   paymentResponse.razorpay_order_id,
+              razorpay_signature:  paymentResponse.razorpay_signature,
+              campaignId: campaignId || null, // ← send again here too (see backend note below)
+            });
 
-      handler: async function (paymentResponse) {
-        const verifyRes = await axios.post("https://p01--ask-us-foundation--8w9bgx4fp8vt.code.run/razorpay/payment/verify", {
-          razorpay_payment_id: paymentResponse.razorpay_payment_id,
-          razorpay_order_id:   paymentResponse.razorpay_order_id,
-          razorpay_signature:  paymentResponse.razorpay_signature,
-        });
+            if (verifyRes.data.status === "success") {
+              navigate('/thank-you', {
+                state: {
+                  fullName: `${firstName} ${lastName}`.trim(),
+                  amount: finalAmount,
+                  date: new Date().toLocaleDateString('en-IN', {
+                    day: '2-digit', month: 'long', year: 'numeric'
+                  }),
+                  paymentId: paymentResponse.razorpay_payment_id,
+                }
+              });
+            } else {
+              alert("Payment issue! Contact: askusfoundation.lko@gmail.com\nPayment ID: " + paymentResponse.razorpay_payment_id);
+            }
+          } catch (err) {
+            alert("Verification failed. Contact support with Payment ID: " + paymentResponse.razorpay_payment_id);
+          }
+        },
 
-        if (verifyRes.data.status === "success") {
-          alert("Thank you " + firstName + "! Your donation was successful!");
-        } else {
-          alert("Payment issue! Contact: askusfoundation.lko@gmail.com\nPayment ID: " + paymentResponse.razorpay_payment_id);
-        }
-      },
+        theme: { color: "#F99B2A" }
+      };
 
-      theme: { color: "#F99B2A" }  // tumhara brand color!
-    };
+      const rzp = new window.Razorpay(options);
+      rzp.open();
 
-    const rzp = new window.Razorpay(options);
-    rzp.open();
-
-  } catch (error) {
-    alert("Something went wrong, Please Try Again");
-    console.log(error)
-  } finally {
-    setIsLoading(false);
-  }
-};
+    } catch (error) {
+      alert("Something went wrong, Please Try Again");
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="font-sans bg-[#FBF9F3] min-h-screen flex flex-col">
@@ -120,7 +137,9 @@ const Donate = () => {
               Your Contribution Creates <span className="text-[#F99B2A]">Lasting Impact</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-300">
-              Join us in our mission to empower rural women, educate children, and build a stronger, self-reliant community.
+              {campaignTitle
+                ? `Supporting: ${campaignTitle}`
+                : 'Join us in our mission to empower rural women, educate children, and build a stronger, self-reliant community.'}
             </p>
           </div>
         </div>

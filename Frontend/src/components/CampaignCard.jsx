@@ -1,9 +1,23 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-export default function CampaignCard({ image, title, description, raised, goal, donations }) {
+export default function CampaignCard({ id, image, title, description, raised, goal, donations }) {
   // Cap the progress at 100% so the bar doesn't overflow
   const progress = Math.min((raised / goal) * 100, 100);
+  // Support both a single image (string) and multiple images (array) for auto-slide
+  const images = Array.isArray(image) ? image : [image];
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % images.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   return (
     <motion.div
@@ -14,14 +28,31 @@ export default function CampaignCard({ image, title, description, raised, goal, 
       className="bg-[#F7EDD1] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full w-full max-w-[450px] mx-auto"
     >
       {/* Image */}
-      <div className="h-48 sm:h-56 md:h-64 overflow-hidden shrink-0">
-        <motion.img
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.4 }}
-          src={image}
-          alt={title}
-          className="w-full h-full object-cover"
-        />
+      <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden shrink-0">
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={activeIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
+            src={images[activeIndex]}
+            alt={title}
+            className="w-full h-full object-cover absolute inset-0"
+          />
+        </AnimatePresence>
+
+        {images.length > 1 && (
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+            {images.map((_, idx) => (
+              <span
+                key={idx}
+                className={`h-1.5 rounded-full transition-all duration-300 ${idx === activeIndex ? "w-4 bg-white" : "w-1.5 bg-white/60"
+                  }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Content */}
@@ -60,9 +91,9 @@ export default function CampaignCard({ image, title, description, raised, goal, 
             </div>
           </div>
 
-          {/* Button */}
+          {/* Button — pass campaign id + title so Donate page knows which campaign this is */}
           <Link
-            to="/donate"
+            to={`/donate?campaignId=${id}&campaignTitle=${encodeURIComponent(title)}`}
             className="w-full sm:w-auto px-8 py-3.5 text-center text-white font-semibold rounded-full transition-all duration-300 hover:scale-105 active:scale-95 text-sm tracking-wide bg-[#F99B2A] hover:bg-[#E07B0A] shadow-lg hover:shadow-xl block"
           >
             Donate Now

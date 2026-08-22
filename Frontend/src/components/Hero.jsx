@@ -5,7 +5,7 @@ import Button from './Button';
 
 export default function Hero() {
     return (
-        <section className="relative w-full h-[100svh] min-h-[600px] overflow-hidden bg-gray-900">
+        <section className="relative w-full overflow-hidden bg-gray-900 md:h-[100svh] md:min-h-[600px]">
             {/* Background Image */}
             <motion.img
                 initial={{ scale: 1.1 }}
@@ -13,15 +13,16 @@ export default function Hero() {
                 transition={{ duration: 1.5, ease: "easeOut" }}
                 src={heroBg}
                 alt="Faith in action background"
-                className="absolute inset-0 h-full w-full object-cover opacity-90"
+                className="relative h-[60vh] min-h-[320px] w-full object-cover opacity-90 md:absolute md:inset-0 md:h-full"
             />
 
             {/* Content Box */}
             <motion.div
-                initial={{ y: "100%", opacity: 0 }}
+                initial={{ y: 40, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="absolute bottom-0 left-0 bg-[#14294B] w-full md:w-[80%] lg:w-[65%] xl:w-[45%] h-auto z-10 rounded-tr-[2.5rem] md:rounded-tr-[4rem] flex flex-col gap-6 md:gap-8 items-center md:items-start justify-center p-8 sm:p-12 md:p-16 lg:p-20 text-white shadow-2xl"
+                className="relative w-full bg-gradient-to-b from-[#b086ce] to-[#c7d3e6] z-10 flex flex-col gap-6 items-center justify-center p-8 text-white shadow-2xl
+                md:absolute md:bottom-0 md:left-0 md:w-[80%] lg:w-[65%] xl:w-[45%] md:h-auto md:rounded-tr-[4rem] md:gap-8 md:items-start md:p-16 lg:p-20 rounded-tr-none"
             >
                 {/* Heading */}
                 <motion.h1

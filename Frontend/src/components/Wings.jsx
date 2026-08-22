@@ -1,63 +1,99 @@
 import React from 'react';
 import empowerEd from "../assets/image/empowerEd.jpg";
 import revolutionaari from "../assets/image/revolutionaari.jpg";
+import revolutionaari2 from "../assets/image/revolutionaari2.jpg";
+import revolutionaari3 from "../assets/image/revolutionaari3.jpg";
 import CampaignCard from "../components/CampaignCard";
 import green from "../assets/image/green.jpg";
-import littleLegend from"../assets/image/littleLegend.png";
+import sharang from "../assets/image/sharang.png";
+import { useState, useEffect } from "react";
+
+export async function getCampaigns() {
+  const response = await fetch("http://localhost:8080/api/campaigns");
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch campaigns");
+  }
+
+  return response.json();
+}
+
 
 const Wings = () => {
-    return (
-        <section className='w-full flex flex-col items-center py-16 px-6 md:px-12 lg:px-24 bg-[#FBF9F3]'>
-            {/* Top Tagline */}
-            <p className='text-gray-500 font-bold tracking-widest text-sm md:text-base uppercase mb-4'>
-                Our Wings
-            </p>
-            
-            {/* Responsive Heading */}
-            <h1 className='text-3xl md:text-5xl lg:text-6xl w-full md:w-4/5 lg:w-2/3 text-center font-bold mb-12 md:mb-16 leading-tight text-gray-900'>
-                Empowering communities through education, care, and sustainable initiatives.
-            </h1>
+  const campaignImages = {
+    empowerEd,
+    revolutionaari: [revolutionaari, revolutionaari2, revolutionaari3],
+    sharang,
+  };
+  const [campaigns, setCampaigns] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-            {/* Responsive Grid for Cards */}
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 w-full max-w-6xl'>
-                <CampaignCard
-                    image={empowerEd}
-                    title="EmpowerEd"
-                    description="EmpowerEd focuses on providing quality education, mentorship, and personality development programs for children and youth. Through holistic learning and life skills training, we inspire young individuals to unlock their potential and become future leaders."
-                    raised={27500}
-                    goal={100000}
-                    donations={30}
-                />
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        const data = await getCampaigns();
+        setCampaigns(data);
+      } catch (err) {
+        console.error(err);
+        setError("Unable to load campaigns.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-                <CampaignCard
-                    image={revolutionaari}
-                    title="Revolutioनारी"
-                    description="Revolutioनारी is dedicated to empowering rural women by providing skill development training, financial literacy, and opportunities for economic independence. We help women build confidence, achieve self-reliance, and create a brighter future for themselves and their communities."
-                    raised={42000}
-                    goal={150000}
-                    donations={44}
-                />
+    fetchCampaigns();
+  }, []);
 
-                <CampaignCard
-                    image={green}
-                    title="GreenSquad"
-                    description="Green Squad promotes environmental sustainability through tree plantation drives, awareness campaigns, and community-led green initiatives. We aim to inspire people across India to take action for a cleaner, healthier, and greener future."
-                    raised={31000}
-                    goal={100000}
-                    donations={27}
-                />
+  return (
+    <section className="w-full flex flex-col items-center py-16 px-6 md:px-12 lg:px-24 bg-[#FBF9F3]">
 
-                <CampaignCard
-                    image={littleLegend}
-                    title="Little Legends"
-                    description="Little Legends is dedicated to fostering education, creativity, and personality development among children. Through engaging learning experiences and mentorship, we empower young minds to dream big, grow confidently, and become responsible citizens."
-                    raised={45000}
-                    goal={100000}
-                    donations={36}
-                />
-            </div>
-        </section>
-    );
+      {/* Top Tagline */}
+      <p className="text-gray-500 font-bold tracking-widest text-sm md:text-base uppercase mb-4">
+        Our Wings
+      </p>
+
+      {/* Heading */}
+      <h1 className="text-3xl md:text-5xl lg:text-6xl w-full md:w-4/5 lg:w-2/3 text-center font-bold mb-12 md:mb-16 leading-tight text-gray-900">
+        Empowering communities through education, care, and sustainable initiatives.
+      </h1>
+
+      {/* Loading */}
+      {loading && (
+        <p className="text-gray-600 text-lg">
+          Loading campaigns...
+        </p>
+      )}
+
+      {/* Error */}
+      {!loading && error && (
+        <p className="text-red-500 text-lg">
+          {error}
+        </p>
+      )}
+
+      {/* Campaign Cards */}
+      {!loading && !error && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 w-full max-w-6xl">
+
+          {campaigns.map((campaign) => (
+            <CampaignCard
+              key={campaign.id}
+              id={campaign.id}
+              image={campaignImages[campaign.imageUrl]}
+              title={campaign.title}
+              description={campaign.description}
+              raised={campaign.raised}
+              goal={campaign.goal}
+              donations={campaign.donations}
+            />
+          ))}
+
+        </div>
+      )}
+
+    </section>
+  );
 };
 
 export default Wings;

@@ -10,6 +10,7 @@ import GalleryPage from "./pages/GalleryPage"
 import ScrollToTop from './components/ScrollToTop';
 import Donate from "./pages/Donate"
 import WingsDetail from "./pages/Wing"
+import ThankYou from "./pages/ThankYou"
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/donate" element={<Donate />} />
         <Route path="/wing/:title" element={<WingsDetail />} />
+        <Route path="/thank-you" element={<ThankYou />} />
 
       </Routes>
     </BrowserRouter>

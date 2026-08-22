@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { projectsData } from '../data/projectsData';
 
 const ProjectDetail = () => {
@@ -18,10 +20,11 @@ const ProjectDetail = () => {
   }
 
   return (
-    <div className="bg-[#FAF9F6] min-h-screen font-sans text-gray-800 pb-24">
+    <div className="bg-[#FAF9F6] min-h-screen font-sans text-gray-800">
+      <Navbar />
 
       {/* 1. Container */}
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-16">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-16 pb-20">
 
         {/* 2. Header / Title Area */}
         <div className="mb-8 max-w-4xl">
@@ -70,6 +73,7 @@ const ProjectDetail = () => {
           </Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
