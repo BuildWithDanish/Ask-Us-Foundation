@@ -9,7 +9,7 @@ import sharang from "../assets/image/sharang.png";
 import { useState, useEffect } from "react";
 
 export async function getCampaigns() {
-  const response = await fetch("http://localhost:8080/api/campaigns");
+  const response = await fetch("https://p01--ask-us-foundation--8w9bgx4fp8vt.code.run/api/campaigns");
 
   if (!response.ok) {
     throw new Error("Failed to fetch campaigns");

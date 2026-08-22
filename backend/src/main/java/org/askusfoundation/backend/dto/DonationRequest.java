@@ -6,6 +6,16 @@ public class DonationRequest {
     private String lastName;
     private String email;
     private String phone;
+    private String campaignId; // UUID string ke form mein aayega frontend se, nullable
+
+    public String getCampaignId() {
+        return campaignId;
+    }
+
+    public void setCampaignId(String campaignId) {
+        this.campaignId = campaignId;
+    }
+
 
     // Getters & Setters
     public int getAmount() { return amount; }
