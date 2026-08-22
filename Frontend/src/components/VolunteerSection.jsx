@@ -58,7 +58,7 @@ const VolunteerSection = () => {
     },
     {
       name: "Richa Dubey",
-      role: "Field Worker",
+      role: "Volunteer",
       image: v4,
       quote: "Serving warm, nutritious meals to families in crisis, the elderly, and children facing hunger."
     },
@@ -76,19 +76,19 @@ const VolunteerSection = () => {
     },
     {
       name: "Komal Vishwakarma",
-      role: "Field Worker",
+      role: "Volunteer",
       image: v7,
       quote: "Spreading the Word by distributing translated Bibles and holding small-group faith sessions."
     },
     {
       name: "Abhishek Vishwakarma",
-      role: "Field Worker",
+      role: "Volunteer",
       image: v8,
       quote: "Spreading the Word by distributing translated Bibles and holding small-group faith sessions."
     },
    {
       name: "Ritu Vishwakarma",
-      role: "Field Worker",
+      role: "Volunteer",
       image: v9,
       quote: "Spreading the Word by distributing translated Bibles and holding small-group faith sessions."
     }, 

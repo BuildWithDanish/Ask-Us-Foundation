@@ -1,5 +1,7 @@
 import React from 'react';
 import empowerEd from "../assets/image/empowerEd.jpg";
+import empowerEd2 from "../assets/image/empowerEd2.jpg";
+import empowerEd3 from "../assets/image/empowerEd3.jpg";
 import revolutionaari from "../assets/image/revolutionaari.jpg";
 import revolutionaari2 from "../assets/image/revolutionaari2.jpg";
 import revolutionaari3 from "../assets/image/revolutionaari3.jpg";
@@ -9,7 +11,7 @@ import sharang from "../assets/image/sharang.png";
 import { useState, useEffect } from "react";
 
 export async function getCampaigns() {
-  const response = await fetch("https://p01--ask-us-foundation--8w9bgx4fp8vt.code.run/api/campaigns");
+  const response = await fetch("http://localhost:8080/api/campaigns");
 
   if (!response.ok) {
     throw new Error("Failed to fetch campaigns");
@@ -21,7 +23,7 @@ export async function getCampaigns() {
 
 const Wings = () => {
   const campaignImages = {
-    empowerEd,
+    empowerEd: [empowerEd2, empowerEd3],
     revolutionaari: [revolutionaari, revolutionaari2, revolutionaari3],
     sharang,
   };

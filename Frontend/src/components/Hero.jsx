@@ -13,7 +13,7 @@ export default function Hero() {
                 transition={{ duration: 1.5, ease: "easeOut" }}
                 src={heroBg}
                 alt="Faith in action background"
-                className="relative h-[60vh] min-h-[320px] w-full object-cover opacity-90 md:absolute md:inset-0 md:h-full"
+                className="relative h-[60vh] min-h-[320px] w-full object-cover object-[77%_30%] opacity-90 md:absolute md:inset-0 md:h-full"
             />
 
             {/* Content Box */}

@@ -22,7 +22,7 @@ const CTA = () => {
                         Become a member
                     </Link>
                     <Link
-                        to="/temp"
+                        to="/donate"
                         className="w-full sm:w-auto px-8 py-3.5 text-center text-white font-semibold rounded-full transition-all duration-300 hover:scale-105 active:scale-95 text-sm tracking-wide bg-[#F99B2A] hover:bg-[#E07B0A] shadow-lg hover:shadow-xl block"
                     >
                         Donate Now
